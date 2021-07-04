@@ -38,7 +38,8 @@
   background: rgb(201, 200, 255);
   border: 2px solid rgb(3, 3, 112);
   border-radius: 10px;
-  cursor: pointer;
+  cursor: auto;
+  align-items: center;
 }
 .disabled {
   color: rgb(88, 88, 99);
