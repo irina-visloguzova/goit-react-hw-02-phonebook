@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import shortid from 'shortid';
-import PropTypes from "prop-types";
-import style from '../ContactForm/ContactForm.module.css'
+import React, { Component } from "react"
+import shortid from "shortid"
+import PropTypes from "prop-types"
+import style from "../ContactForm/ContactForm.module.css"
 
 export default class ContactForm extends Component {
   static propTypes = {
@@ -10,39 +10,47 @@ export default class ContactForm extends Component {
       nameId: PropTypes.string.isRequired,
       numberId: PropTypes.string.isRequired,
     }).isRequired,
-  };
+  }
 
   state = {
-    name: '',
-    number: '',
-  };
+    name: "",
+    number: "",
+  }
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { onSubmit } = this.props;
-    const { name, number } = this.state;
-    onSubmit({ id: shortid.generate(), name, number });
-    this.setState({ name: '', number: '' });
-  };
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const { onSubmit } = this.props
+    const { name, number } = this.state
+    onSubmit({ id: shortid.generate(), name, number })
+    this.setState({ name: "", number: "" })
+  }
+
+  btnClasses() {
+    const classes = [style.button]
+    if (this.state.name && typeof +this.state.number === "number") {
+      classes.push(style.disabled)
+    }
+    return classes.join(" ")
+  }
 
   render() {
-    const { htmlFor } = this.props;
-    const { nameId, numberId } = htmlFor;
-    const { name, number } = this.state;
-    const verificationLength = name.length === 0 || number.length === 0;
-    const verificationNumber = Number.isNaN(Number(number)) || number === null;
-    const submitVerification = verificationLength || verificationNumber;
+    const { htmlFor } = this.props
+    const { nameId, numberId } = htmlFor
+    const { name, number } = this.state
+    const verificationLength = name.length === 0 || number.length === 0
+    const verificationNumber = Number.isNaN(Number(number)) || number === null
+    const submitVerification = verificationLength || verificationNumber
     return (
       <>
         <form onSubmit={this.handleSubmit} className={style.form__contact}>
-          <label htmlFor={nameId} className={style['form__name-title']}>
+          <label htmlFor={nameId} className={style["form__name-title"]}>
             Name
             <input
-              className={style['form__name-input']}
+              className={style["form__name-input"]}
               onChange={this.handleChange}
               value={name}
               name="name"
@@ -50,10 +58,10 @@ export default class ContactForm extends Component {
               placeholder="Input name"
             />
           </label>
-          <label htmlFor={numberId} className={style['form__name-title']}>
+          <label htmlFor={numberId} className={style["form__name-title"]}>
             Number
             <input
-              className={style['form__name-input']}
+              className={style["form__name-input"]}
               onChange={this.handleChange}
               value={number}
               name="number"
@@ -64,12 +72,12 @@ export default class ContactForm extends Component {
           <button
             disabled={submitVerification}
             type="submit"
-            className={!submitVerification ? style.button : style.disabled}
+            className={this.btnClasses()}
           >
             Add contact
           </button>
         </form>
       </>
-    );
+    )
   }
 }
